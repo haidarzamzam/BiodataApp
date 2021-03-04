@@ -1,6 +1,7 @@
 import 'package:biodata_app/data/blocs/biodatas_bloc.dart';
 import 'package:biodata_app/data/blocs/bloc_provider.dart';
 import 'package:biodata_app/screen/splash_screen.dart';
+import 'package:biodata_app/utils/navigator.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,6 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'BiodataApp',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -20,6 +22,7 @@ class MyApp extends StatelessWidget {
         bloc: BiodatasBloc(),
         child: SplashScreen(),
       ),
+      routes: routes,
     );
   }
 }

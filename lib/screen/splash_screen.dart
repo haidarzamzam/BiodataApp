@@ -1,7 +1,8 @@
 import 'package:biodata_app/data/blocs/biodatas_bloc.dart';
 import 'package:biodata_app/data/blocs/bloc_provider.dart';
 import 'package:biodata_app/data/models/biodata_model.dart';
-import 'package:biodata_app/screen/home_screen.dart';
+import 'package:biodata_app/screen/add_biodata_screen.dart';
+import 'package:biodata_app/screen/biodata_screen.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -18,14 +19,25 @@ class _SplashScreenState extends State<SplashScreen> {
     _biodataBloc = BlocProvider.of<BiodatasBloc>(context);
   }
 
-  void _navigateToBiodata(BiodataModel biodataModel) async {
+  void _navigateToAddBiodata() async {
+    MaterialPageRoute(
+      // Once again, use the BlocProvider to pass the ViewNoteBloc
+      // to the ViewNotePage
+      builder: (context) => BlocProvider(
+        bloc: BiodatasBloc(),
+        child: AddBiodataScreen(),
+      ),
+    );
+  }
+
+  void _navigateToBiodata() async {
     bool update = await Navigator.of(context).push(
       MaterialPageRoute(
         // Once again, use the BlocProvider to pass the ViewNoteBloc
         // to the ViewNotePage
         builder: (context) => BlocProvider(
           bloc: BiodatasBloc(),
-          child: HomeScreen(),
+          child: BiodataScreen(),
         ),
       ),
     );
@@ -38,6 +50,29 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        title: Text("List Biodata",
+            style: TextStyle(
+                color: Colors.white,
+                fontFamily: "Open Sans",
+                fontWeight: FontWeight.w500)),
+        backgroundColor: Colors.black,
+        elevation: 0,
+        centerTitle: true,
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.add,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              Navigator.pushNamed(
+                  context, '/addBiodata');
+            },
+          )
+        ],
+      ),
       body: Container(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -49,7 +84,12 @@ class _SplashScreenState extends State<SplashScreen> {
                       AsyncSnapshot<List<BiodataModel>> snapshot) {
                     if (snapshot.hasData) {
                       if (snapshot.data.length == 0) {
-                        return Text('No datas');
+                        return Center(
+                          child: Text(
+                            "No data yet, please add bio!",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        );
                       }
 
                       List<BiodataModel> biodatas = snapshot.data;
@@ -60,9 +100,7 @@ class _SplashScreenState extends State<SplashScreen> {
                           BiodataModel biodata = biodatas[index];
 
                           return GestureDetector(
-                            onTap: () {
-                              _navigateToBiodata(biodata);
-                            },
+                            onTap: () {},
                             child: Container(
                               height: 40,
                               child: Text(

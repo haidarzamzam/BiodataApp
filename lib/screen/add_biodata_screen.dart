@@ -27,7 +27,7 @@ class _AddBiodataScreenState extends State<AddBiodataScreen> {
   final _urlFacebookController = TextEditingController();
   final _urlYoutubeController = TextEditingController();
   final _passwordController = TextEditingController();
-  String _gender = "Laki-laki";
+  String _gender;
   String _photoProfile = "";
   bool _isHidePassword = true;
 
@@ -66,8 +66,12 @@ class _AddBiodataScreenState extends State<AddBiodataScreen> {
               SizedBox(height: 16),
               buildTextField(_nameController, "Name", TextInputType.name),
               SizedBox(height: 8),
-              buildDropdown(context, _dropdownGenderValues, (value) {
-                _gender = value;
+              buildDropdown(
+                  context, "Choose gender", _gender, _dropdownGenderValues,
+                  (value) {
+                setState(() {
+                  _gender = value;
+                });
                 return;
               }),
               SizedBox(height: 8),
@@ -169,6 +173,8 @@ class _AddBiodataScreenState extends State<AddBiodataScreen> {
       ToastUtils.show("Please add photo!");
     } else if (ValidateHelper.isEmpty(_nameController.text)) {
       ToastUtils.show("Please fill name!");
+    } else if (ValidateHelper.isEmpty(_gender)) {
+      ToastUtils.show("Please choose gender!");
     } else if (ValidateHelper.isEmpty(_addressController.text)) {
       ToastUtils.show("Please fill address!");
     } else if (ValidateHelper.isEmpty(_emailController.text)) {
@@ -237,4 +243,3 @@ class _AddBiodataScreenState extends State<AddBiodataScreen> {
         });
   }
 }
-

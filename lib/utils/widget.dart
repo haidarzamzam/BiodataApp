@@ -41,8 +41,8 @@ Widget buildTextField(
   );
 }
 
-Widget buildDropdown(BuildContext context, List<String> itemData,
-    Function function(String value)) {
+Widget buildDropdown(BuildContext context, String name, String itemValue,
+    List<String> itemData, Function function(String value)) {
   return DropdownButtonHideUnderline(
     child: Container(
       decoration: BoxDecoration(
@@ -54,11 +54,14 @@ Widget buildDropdown(BuildContext context, List<String> itemData,
           canvasColor: WidgetUtil().parseHexColor("#323232"),
         ),
         child: DropdownButton(
+            hint: Padding(
+              padding: const EdgeInsets.only(left: 14.0),
+              child: Text(name, style: TextStyle(color: Colors.grey)),
+            ),
             isExpanded: true,
             items: itemData
                 .map(
-                  (value) =>
-                  DropdownMenuItem(
+                  (value) => DropdownMenuItem(
                     child: Padding(
                       padding: const EdgeInsets.only(left: 14.0),
                       child: Text(
@@ -68,11 +71,11 @@ Widget buildDropdown(BuildContext context, List<String> itemData,
                     ),
                     value: value,
                   ),
-            )
+                )
                 .toList(),
             onChanged: (value) => function(value),
             isDense: false,
-            value: itemData.first),
+            value: itemValue),
       ),
     ),
   );

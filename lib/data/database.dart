@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:biodata_app/data/models/biodata_model.dart';
+import 'package:biodata_app/data/models/gallery_model.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -42,6 +43,14 @@ class DBProvider {
 					password TEXT DEFAULT ''
 				)
 			''');
+
+      await db.execute('''
+				CREATE TABLE gallery(
+					id INTEGER PRIMARY KEY,
+					idUser INTEGER,
+					photo TEXT DEFAULT ''
+				)
+			''');
     });
   }
 
@@ -76,5 +85,22 @@ class DBProvider {
         where: 'id = ?', whereArgs: [biodataModel.id]);
 
     return res;
+  }
+
+  newGallery(GalleryModel galleryModel) async {
+    final db = await database;
+    var res = await db.insert('gallery', galleryModel.toJson());
+
+    return res;
+  }
+
+  getGallerys(int id) async {
+    final db = await database;
+    var res = await db.query('gallery', where: 'idUser = ?', whereArgs: [id]);
+    List<GalleryModel> gallerys = res.isNotEmpty
+        ? res.map((gallery) => GalleryModel.fromJson(gallery)).toList()
+        : [];
+
+    return gallerys;
   }
 }

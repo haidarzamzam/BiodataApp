@@ -102,8 +102,12 @@ class _EditBiodataScreenState extends State<EditBiodataScreen> {
               SizedBox(height: 16),
               buildTextField(_nameController, "Name", TextInputType.name),
               SizedBox(height: 8),
-              buildDropdown(context, _dropdownGenderValues, (value) {
-                _gender = value;
+              buildDropdown(
+                  context, "Choose gender", _gender, _dropdownGenderValues,
+                  (value) {
+                setState(() {
+                  _gender = value;
+                });
                 return;
               }),
               SizedBox(height: 8),
@@ -205,6 +209,8 @@ class _EditBiodataScreenState extends State<EditBiodataScreen> {
       ToastUtils.show("Please add photo!");
     } else if (ValidateHelper.isEmpty(_nameController.text)) {
       ToastUtils.show("Please fill name!");
+    } else if (ValidateHelper.isEmpty(_gender)) {
+      ToastUtils.show("Please choose gender!");
     } else if (ValidateHelper.isEmpty(_addressController.text)) {
       ToastUtils.show("Please fill address!");
     } else if (ValidateHelper.isEmpty(_emailController.text)) {

@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:biodata_app/data/blocs/biodatas_bloc.dart';
 import 'package:biodata_app/data/blocs/bloc_provider.dart';
+import 'package:biodata_app/data/blocs/gallery_bloc.dart';
 import 'package:biodata_app/data/models/biodata_model.dart';
 import 'package:biodata_app/screen/edit_biodata_screen.dart';
+import 'package:biodata_app/screen/gallery_screen.dart';
 import 'package:biodata_app/screen/social_media_screen.dart';
 import 'package:biodata_app/utils/toast_utils.dart';
 import 'package:biodata_app/utils/widget.dart';
@@ -64,14 +66,36 @@ class _DetailBiodataScreenState extends State<DetailBiodataScreen> {
             children: <Widget>[
               Row(
                 children: <Widget>[
-                  Expanded(
-                      child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: Image.memory(
+                  GestureDetector(
+                    onTap: () async {
+                      bool update = await Navigator.of(context).push(
+                        MaterialPageRoute(
+                          // Once again, use the BlocProvider to pass the ViewNoteBloc
+                          // to the ViewNotePage
+                          builder: (context) => BlocProvider(
+                            bloc: GalleryBloc(_biodataModel.id),
+                            child: GalleryScreen(
+                              idUser: _biodataModel.id,
+                            ),
+                          ),
+                        ),
+                      );
+
+                      // If update was set, get all the notes again
+                      if (update != null) {
+                        _biodataBloc.getBiodatas();
+                      }
+                    },
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.memory(
                         base64Decode(_biodataModel.photoProfile),
                         fit: BoxFit.fill,
-                        height: 220),
-                  )),
+                        height: 220,
+                        width: 150,
+                      ),
+                    ),
+                  ),
                   SizedBox(
                     width: 20,
                   ),

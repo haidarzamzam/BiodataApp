@@ -23,7 +23,7 @@ class _LandingScreenState extends State<LandingScreen> {
 
   _getRequestsAdd() async {
     _biodataBloc.getBiodatas();
-    ToastUtils.show("Add Data Success!");
+    ToastUtils.show("Add bio Success!");
   }
 
   @override
@@ -62,6 +62,11 @@ class _LandingScreenState extends State<LandingScreen> {
                   builder: (BuildContext context,
                       AsyncSnapshot<List<BiodataModel>> snapshot) {
                     if (snapshot.hasData) {
+                      if (snapshot.data.isEmpty) {
+                        return Center(
+                            child: Text("No data yet, Please add bio!",
+                                style: TextStyle(color: Colors.white)));
+                      }
                       List<BiodataModel> biodatas = snapshot.data;
 
                       return GridView.count(
@@ -96,19 +101,19 @@ class _LandingScreenState extends State<LandingScreen> {
                                     alignment: Alignment.center,
                                     child: Column(
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      CrossAxisAlignment.start,
                                       children: <Widget>[
                                         Flexible(
                                             child: ClipRRect(
-                                          borderRadius:
+                                              borderRadius:
                                               BorderRadius.circular(8.0),
-                                          child: Image.memory(
-                                              base64Decode(
-                                                  biodatas[index].photoProfile),
-                                              width: 150,
-                                              height: 300,
-                                              fit: BoxFit.cover),
-                                        )),
+                                              child: Image.memory(
+                                                  base64Decode(
+                                                      biodatas[index].photoProfile),
+                                                  width: 150,
+                                                  height: 300,
+                                                  fit: BoxFit.cover),
+                                            )),
                                         SizedBox(height: 8),
                                         Center(
                                           child: Text(
@@ -116,7 +121,7 @@ class _LandingScreenState extends State<LandingScreen> {
                                             maxLines: 1,
                                             softWrap: true,
                                             style:
-                                                TextStyle(color: Colors.white),
+                                            TextStyle(color: Colors.white),
                                             textAlign: TextAlign.center,
                                           ),
                                         ),

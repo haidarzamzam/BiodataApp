@@ -21,17 +21,27 @@ class BiodatasBloc implements BlocBase {
 
   StreamSink<BiodataModel> get inAddBioadata => _addBiodataController.sink;
 
+  final _saveBiodataController = StreamController<BiodataModel>.broadcast();
+
+  StreamSink<BiodataModel> get inSaveBiodata => _saveBiodataController.sink;
+
   BiodatasBloc() {
     getBiodatas();
     _biodataController.stream.listen(getBiodata);
     _addBiodataController.stream.listen(_handleAddBiodata);
+    _saveBiodataController.stream.listen(_handleSaveBiodata);
   }
 
   @override
   void dispose() {
     _biodatasController.close();
+    _saveBiodataController.close();
     _biodataController.close();
     _addBiodataController.close();
+  }
+
+  void _handleSaveBiodata(BiodataModel biodataModel) async {
+    await DBProvider.db.updateBioadata(biodataModel);
   }
 
   void getBiodatas() async {

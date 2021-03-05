@@ -10,12 +10,39 @@ import 'package:biodata_app/utils/widget.dart';
 import 'package:biodata_app/utils/widget_utils.dart';
 import 'package:flutter/material.dart';
 
-class AddBiodataScreen extends StatefulWidget {
+class EditBiodataScreen extends StatefulWidget {
+  final int id;
+  final String photo;
+  final String name;
+  final String address;
+  final String email;
+  final String phone;
+  final String urlInstagram;
+  final String urlFacebook;
+  final String urlYoutube;
+  final String password;
+  final String gender;
+
+  const EditBiodataScreen(
+      {Key key,
+      this.id,
+      this.photo,
+      this.name,
+      this.address,
+      this.email,
+      this.phone,
+      this.urlInstagram,
+      this.urlFacebook,
+      this.urlYoutube,
+      this.password,
+      this.gender})
+      : super(key: key);
+
   @override
-  _AddBiodataScreenState createState() => _AddBiodataScreenState();
+  _EditBiodataScreenState createState() => _EditBiodataScreenState();
 }
 
-class _AddBiodataScreenState extends State<AddBiodataScreen> {
+class _EditBiodataScreenState extends State<EditBiodataScreen> {
   BiodatasBloc _biodataBloc;
   final _dropdownGenderValues = ["Laki-laki", "Perempuan"];
 
@@ -27,7 +54,7 @@ class _AddBiodataScreenState extends State<AddBiodataScreen> {
   final _urlFacebookController = TextEditingController();
   final _urlYoutubeController = TextEditingController();
   final _passwordController = TextEditingController();
-  String _gender = "Laki-laki";
+  String _gender = "";
   String _photoProfile = "";
   bool _isHidePassword = true;
 
@@ -35,6 +62,15 @@ class _AddBiodataScreenState extends State<AddBiodataScreen> {
   void initState() {
     super.initState();
     _biodataBloc = BlocProvider.of<BiodatasBloc>(context);
+    _nameController.text = widget.name;
+    _addressController.text = widget.address;
+    _emailController.text = widget.email;
+    _phoneController.text = widget.phone;
+    _urlInstagramController.text = widget.urlInstagram;
+    _urlFacebookController.text = widget.urlFacebook;
+    _urlYoutubeController.text = widget.urlYoutube;
+    _passwordController.text = widget.password;
+    _photoProfile = widget.photo;
   }
 
   @override
@@ -42,7 +78,7 @@ class _AddBiodataScreenState extends State<AddBiodataScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: Text("Add Biodata",
+        title: Text("Edit Biodata",
             style: TextStyle(
                 color: Colors.white,
                 fontFamily: "Open Sans",
@@ -137,7 +173,7 @@ class _AddBiodataScreenState extends State<AddBiodataScreen> {
                 child: SizedBox.expand(
                   child: RaisedButton(
                     onPressed: () {
-                      _addBiodata();
+                      _editBiodata();
                     },
                     shape: new RoundedRectangleBorder(
                       borderRadius: new BorderRadius.circular(4),
@@ -145,7 +181,7 @@ class _AddBiodataScreenState extends State<AddBiodataScreen> {
                     color: WidgetUtil().parseHexColor("#db0000"),
                     disabledColor: WidgetUtil().parseHexColor("#db0000"),
                     child: Text(
-                      "Submit",
+                      "Edit",
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 16,
@@ -164,7 +200,7 @@ class _AddBiodataScreenState extends State<AddBiodataScreen> {
     );
   }
 
-  void _addBiodata() async {
+  void _editBiodata() async {
     if (ValidateHelper.isEmpty(_photoProfile)) {
       ToastUtils.show("Please add photo!");
     } else if (ValidateHelper.isEmpty(_nameController.text)) {
@@ -185,6 +221,7 @@ class _AddBiodataScreenState extends State<AddBiodataScreen> {
       ToastUtils.show("Please fill password!");
     } else {
       BiodataModel biodataModel = new BiodataModel(
+          id: widget.id,
           name: _nameController.text,
           gender: _gender,
           address: _addressController.text,
@@ -196,7 +233,9 @@ class _AddBiodataScreenState extends State<AddBiodataScreen> {
           photoProfile: _photoProfile,
           password: _passwordController.text);
 
-      _biodataBloc.inAddBioadata.add(biodataModel);
+      _biodataBloc.inSaveBiodata.add(biodataModel);
+      ToastUtils.show("Edit bio success");
+      Navigator.pop(context);
       Navigator.pop(context, true);
     }
   }
@@ -237,4 +276,3 @@ class _AddBiodataScreenState extends State<AddBiodataScreen> {
         });
   }
 }
-

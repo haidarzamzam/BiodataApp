@@ -3,7 +3,11 @@ import 'dart:convert';
 import 'package:biodata_app/data/blocs/biodatas_bloc.dart';
 import 'package:biodata_app/data/blocs/bloc_provider.dart';
 import 'package:biodata_app/data/models/biodata_model.dart';
+import 'package:biodata_app/screen/edit_biodata_screen.dart';
 import 'package:biodata_app/screen/social_media_screen.dart';
+import 'package:biodata_app/utils/toast_utils.dart';
+import 'package:biodata_app/utils/widget.dart';
+import 'package:biodata_app/utils/widget_utils.dart';
 import 'package:flutter/material.dart';
 
 class DetailBiodataScreen extends StatefulWidget {
@@ -45,7 +49,10 @@ class _DetailBiodataScreenState extends State<DetailBiodataScreen> {
               Icons.edit,
               color: Colors.white,
             ),
-            onPressed: () {},
+            onPressed: () {
+              _displayTextInputDialog(
+                  context, _biodataModel.password, widget.biodataModel);
+            },
           )
         ],
       ),
@@ -76,12 +83,14 @@ class _DetailBiodataScreenState extends State<DetailBiodataScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          _biodataModel.name,
+                          _biodataModel.name + "\n\n\n",
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(fontSize: 32, color: Colors.white),
                         ),
                         Text(
                           _biodataModel.gender,
-                          style: TextStyle(fontSize: 19, color: Colors.grey),
+                          style: TextStyle(fontSize: 16, color: Colors.grey),
                         ),
                         SizedBox(
                           height: 40,
@@ -208,14 +217,17 @@ class _DetailBiodataScreenState extends State<DetailBiodataScreen> {
                       Text(
                         ": ${_biodataModel.address}",
                         style: TextStyle(color: Colors.grey),
+                        overflow: TextOverflow.ellipsis,
                       ),
                       Text(
                         ": ${_biodataModel.email}",
                         style: TextStyle(color: Colors.grey),
+                        overflow: TextOverflow.ellipsis,
                       ),
                       Text(
                         ": ${_biodataModel.phoneNumber}",
                         style: TextStyle(color: Colors.grey),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   )
@@ -251,4 +263,63 @@ class IconTile extends StatelessWidget {
       ),
     );
   }
+}
+
+Future<void> _displayTextInputDialog(
+    BuildContext context, String password, BiodataModel biodataModel) async {
+  TextEditingController _fieldPasswordInput = TextEditingController();
+  return showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (context) {
+      return AlertDialog(
+        title: Text('Input your password'),
+        content:
+            buildTextField(_fieldPasswordInput, "Password", TextInputType.text),
+        actions: <Widget>[
+          FlatButton(
+            child: Text(
+              'CANCEL',
+              style: TextStyle(color: WidgetUtil().parseHexColor("#db0000")),
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          FlatButton(
+            child: Text(
+              'OK',
+              style: TextStyle(color: WidgetUtil().parseHexColor("#db0000")),
+            ),
+            onPressed: () async {
+              if (_fieldPasswordInput.text == password) {
+                Navigator.pop(context);
+                await Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => BlocProvider(
+                      bloc: BiodatasBloc(),
+                      child: EditBiodataScreen(
+                        photo: biodataModel.photoProfile,
+                        name: biodataModel.name,
+                        address: biodataModel.address,
+                        phone: biodataModel.phoneNumber,
+                        email: biodataModel.email,
+                        urlInstagram: biodataModel.urlInstagram,
+                        urlFacebook: biodataModel.urlFacebook,
+                        urlYoutube: biodataModel.urlYoutube,
+                        password: biodataModel.password,
+                        id: biodataModel.id,
+                      ),
+                    ),
+                  ),
+                );
+              } else {
+                ToastUtils.show("Password wrong!");
+              }
+            },
+          ),
+        ],
+      );
+    },
+  );
 }

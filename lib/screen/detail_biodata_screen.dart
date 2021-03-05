@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:biodata_app/data/blocs/biodatas_bloc.dart';
 import 'package:biodata_app/data/blocs/bloc_provider.dart';
 import 'package:biodata_app/data/models/biodata_model.dart';
+import 'package:biodata_app/screen/social_media_screen.dart';
 import 'package:flutter/material.dart';
 
 class DetailBiodataScreen extends StatefulWidget {
@@ -88,17 +89,77 @@ class _DetailBiodataScreenState extends State<DetailBiodataScreen> {
                         Expanded(
                           child: Row(
                             children: <Widget>[
-                              IconTile(
-                                backColor: Color(0xffFEF2F0),
-                                imgAssetPath: "assets/images/ig.png",
+                              GestureDetector(
+                                onTap: () async {
+                                  bool update =
+                                      await Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => BlocProvider(
+                                        bloc: BiodatasBloc(),
+                                        child: SocialMediaScreen(
+                                          url: _biodataModel.urlInstagram,
+                                          type: "Instagram",
+                                        ),
+                                      ),
+                                    ),
+                                  );
+
+                                  if (update != null) {
+                                    _biodataBloc.getBiodatas();
+                                  }
+                                },
+                                child: IconTile(
+                                  backColor: Colors.white,
+                                  imgAssetPath: "assets/images/ig.png",
+                                ),
                               ),
-                              IconTile(
-                                backColor: Color(0xffFEF2F0),
-                                imgAssetPath: "assets/images/fb.png",
+                              GestureDetector(
+                                onTap: () async {
+                                  bool update =
+                                      await Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => BlocProvider(
+                                        bloc: BiodatasBloc(),
+                                        child: SocialMediaScreen(
+                                          url: _biodataModel.urlFacebook,
+                                          type: "Facebook",
+                                        ),
+                                      ),
+                                    ),
+                                  );
+
+                                  if (update != null) {
+                                    _biodataBloc.getBiodatas();
+                                  }
+                                },
+                                child: IconTile(
+                                  backColor: Colors.white,
+                                  imgAssetPath: "assets/images/fb.png",
+                                ),
                               ),
-                              IconTile(
-                                backColor: Color(0xffFEF2F0),
-                                imgAssetPath: "assets/images/yt.png",
+                              GestureDetector(
+                                onTap: () async {
+                                  bool update =
+                                      await Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => BlocProvider(
+                                        bloc: BiodatasBloc(),
+                                        child: SocialMediaScreen(
+                                          url: _biodataModel.urlYoutube,
+                                          type: "Youtube",
+                                        ),
+                                      ),
+                                    ),
+                                  );
+
+                                  if (update != null) {
+                                    _biodataBloc.getBiodatas();
+                                  }
+                                },
+                                child: IconTile(
+                                  backColor: Colors.white,
+                                  imgAssetPath: "assets/images/yt.png",
+                                ),
                               ),
                             ],
                           ),

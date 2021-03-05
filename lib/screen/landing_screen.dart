@@ -3,10 +3,7 @@ import 'dart:convert';
 import 'package:biodata_app/data/blocs/biodatas_bloc.dart';
 import 'package:biodata_app/data/blocs/bloc_provider.dart';
 import 'package:biodata_app/data/models/biodata_model.dart';
-import 'package:biodata_app/screen/add_biodata_screen.dart';
-import 'package:biodata_app/screen/biodata_screen.dart';
 import 'package:biodata_app/screen/detail_biodata_screen.dart';
-import 'package:biodata_app/utils/navigator.dart';
 import 'package:biodata_app/utils/toast_utils.dart';
 import 'package:flutter/material.dart';
 
@@ -75,8 +72,6 @@ class _LandingScreenState extends State<LandingScreen> {
                             onTap: () async {
                               bool update = await Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  // Once again, use the BlocProvider to pass the ViewNoteBloc
-                                  // to the ViewNotePage
                                   builder: (context) => BlocProvider(
                                     bloc: BiodatasBloc(),
                                     child: DetailBiodataScreen(
@@ -86,7 +81,6 @@ class _LandingScreenState extends State<LandingScreen> {
                                 ),
                               );
 
-                              // If update was set, get all the notes again
                               if (update != null) {
                                 _biodataBloc.getBiodatas();
                               }

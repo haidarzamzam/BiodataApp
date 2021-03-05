@@ -6,15 +6,21 @@ import 'package:biodata_app/utils/widget_utils.dart';
 import 'package:flutter/material.dart';
 
 Widget buildCircleAvatar(String image) {
-  return CircleAvatar(
-    radius: 50.0,
-    child: ClipOval(
-      clipBehavior: Clip.hardEdge,
+  return ClipRRect(
+    borderRadius: BorderRadius.circular(8),
+    child: Container(
+      width: 120,
+      height: 120,
       child: !ValidateHelper.isEmpty(image)
-          ? Image.memory(base64Decode(image), fit: BoxFit.cover)
-          : Image.asset('assets/images/add_image.png'),
+          ? Image.memory(base64Decode(image),
+              width: 120, height: 120, fit: BoxFit.fill)
+          : Image.asset('assets/images/add_image.png',
+              width: 120, height: 120, fit: BoxFit.fill),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: Colors.white,
+      ),
     ),
-    backgroundColor: Colors.white,
   );
 }
 
@@ -48,9 +54,11 @@ Widget buildDropdown(BuildContext context, List<String> itemData,
           canvasColor: WidgetUtil().parseHexColor("#323232"),
         ),
         child: DropdownButton(
+            isExpanded: true,
             items: itemData
                 .map(
-                  (value) => DropdownMenuItem(
+                  (value) =>
+                  DropdownMenuItem(
                     child: Padding(
                       padding: const EdgeInsets.only(left: 14.0),
                       child: Text(
@@ -60,10 +68,9 @@ Widget buildDropdown(BuildContext context, List<String> itemData,
                     ),
                     value: value,
                   ),
-                )
+            )
                 .toList(),
             onChanged: (value) => function(value),
-            isExpanded: false,
             isDense: false,
             value: itemData.first),
       ),

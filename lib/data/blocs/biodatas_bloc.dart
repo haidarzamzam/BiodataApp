@@ -11,24 +11,37 @@ class BiodatasBloc implements BlocBase {
 
   Stream<List<BiodataModel>> get biodatas => _biodatasController.stream;
 
+  final _biodataController = StreamController<BiodataModel>.broadcast();
+
+  StreamSink<BiodataModel> get inBiodata => _biodataController.sink;
+
+  Stream<BiodataModel> get biodata => _biodataController.stream;
+
   final _addBiodataController = StreamController<BiodataModel>.broadcast();
 
   StreamSink<BiodataModel> get inAddBioadata => _addBiodataController.sink;
 
   BiodatasBloc() {
     getBiodatas();
+    _biodataController.stream.listen(getBiodata);
     _addBiodataController.stream.listen(_handleAddBiodata);
   }
 
   @override
   void dispose() {
     _biodatasController.close();
+    _biodataController.close();
     _addBiodataController.close();
   }
 
   void getBiodatas() async {
     List<BiodataModel> biodatas = await DBProvider.db.getBioadatas();
     _inBiodatas.add(biodatas);
+  }
+
+  void getBiodata(BiodataModel biodataModel) async {
+    BiodataModel biodata = await DBProvider.db.getBioadata(biodataModel);
+    inBiodata.add(biodata);
   }
 
   void _handleAddBiodata(BiodataModel biodataModel) async {

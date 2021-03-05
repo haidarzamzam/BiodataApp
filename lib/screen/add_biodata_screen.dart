@@ -51,109 +51,114 @@ class _AddBiodataScreenState extends State<AddBiodataScreen> {
         elevation: 0,
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: ListView(
-          children: [
-            GestureDetector(
-              child: buildCircleAvatar(_photoProfile),
-              onTap: () {
-                _showOptionsAddImage(context);
-              },
-            ),
-            SizedBox(height: 16),
-            buildTextField(_nameController, "Name", TextInputType.name),
-            SizedBox(height: 8),
-            buildDropdown(context, _dropdownGenderValues, (value) {
-              _gender = value;
-              return;
-            }),
-            SizedBox(height: 8),
-            buildTextField(
-                _addressController, "Address", TextInputType.streetAddress),
-            SizedBox(height: 8),
-            buildTextField(
-                _emailController, "Email", TextInputType.emailAddress),
-            SizedBox(height: 8),
-            buildTextField(_phoneController, "Phone", TextInputType.phone),
-            SizedBox(height: 8),
-            buildTextField(
-                _urlInstagramController, "URL Instagram", TextInputType.url),
-            SizedBox(height: 8),
-            buildTextField(
-                _urlFacebookController, "URL Facebook", TextInputType.url),
-            SizedBox(height: 8),
-            buildTextField(
-                _urlYoutubeController, "URL Youtube", TextInputType.url),
-            SizedBox(height: 8),
-            TextFormField(
-              controller: _passwordController,
-              autofocus: false,
-              obscureText: _isHidePassword,
-              style: TextStyle(color: Colors.white),
-              decoration: InputDecoration(
-                fillColor: WidgetUtil().parseHexColor("#323232"),
-                hintText: 'Password',
-                suffixIcon: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _isHidePassword = !_isHidePassword;
-                    });
-                  },
-                  child: Icon(
-                    _isHidePassword ? Icons.visibility_off : Icons.visibility,
-                    color: _isHidePassword ? Colors.grey : Colors.red,
-                  ),
-                ),
-                isDense: true,
-                filled: true,
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(4.0),
-                  ),
-                  borderSide: BorderSide(
-                    color: Colors.transparent ?? Color(0xFF000000),
-                    width: 2,
-                  ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(4.0),
-                  ),
-                  borderSide: BorderSide(
-                    color: Colors.transparent ?? Color(0xFF000000),
-                    width: 2,
-                  ),
-                ),
-                contentPadding: EdgeInsets.all(15.0),
-                hintStyle: TextStyle(color: Colors.grey),
-              ),
-            ),
-            SizedBox(height: 16),
-            SizedBox(
-              height: 50,
-              child: RaisedButton(
-                onPressed: () {
-                  _addBiodata();
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              GestureDetector(
+                child: buildCircleAvatar(_photoProfile),
+                onTap: () {
+                  _showOptionsAddImage(context);
                 },
-                shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(4),
+              ),
+              SizedBox(height: 16),
+              buildTextField(_nameController, "Name", TextInputType.name),
+              SizedBox(height: 8),
+              buildDropdown(context, _dropdownGenderValues, (value) {
+                _gender = value;
+                return;
+              }),
+              SizedBox(height: 8),
+              buildTextField(
+                  _addressController, "Address", TextInputType.streetAddress),
+              SizedBox(height: 8),
+              buildTextField(
+                  _emailController, "Email", TextInputType.emailAddress),
+              SizedBox(height: 8),
+              buildTextField(_phoneController, "Phone", TextInputType.phone),
+              SizedBox(height: 8),
+              buildTextField(
+                  _urlInstagramController, "URL Instagram", TextInputType.url),
+              SizedBox(height: 8),
+              buildTextField(
+                  _urlFacebookController, "URL Facebook", TextInputType.url),
+              SizedBox(height: 8),
+              buildTextField(
+                  _urlYoutubeController, "URL Youtube", TextInputType.url),
+              SizedBox(height: 8),
+              TextFormField(
+                controller: _passwordController,
+                autofocus: false,
+                obscureText: _isHidePassword,
+                style: TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                  fillColor: WidgetUtil().parseHexColor("#323232"),
+                  hintText: 'Password',
+                  suffixIcon: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _isHidePassword = !_isHidePassword;
+                      });
+                    },
+                    child: Icon(
+                      _isHidePassword ? Icons.visibility_off : Icons.visibility,
+                      color: _isHidePassword ? Colors.grey : Colors.red,
+                    ),
+                  ),
+                  isDense: true,
+                  filled: true,
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(4.0),
+                    ),
+                    borderSide: BorderSide(
+                      color: Colors.transparent ?? Color(0xFF000000),
+                      width: 2,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(4.0),
+                    ),
+                    borderSide: BorderSide(
+                      color: Colors.transparent ?? Color(0xFF000000),
+                      width: 2,
+                    ),
+                  ),
+                  contentPadding: EdgeInsets.all(15.0),
+                  hintStyle: TextStyle(color: Colors.grey),
                 ),
-                color: Colors.white,
-                disabledColor: Colors.white,
-                child: Text(
-                  "Submit",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    letterSpacing: 0.5,
-                    fontFamily: "Open Sans",
+              ),
+              SizedBox(height: 16),
+              SizedBox(
+                height: 50,
+                child: SizedBox.expand(
+                  child: RaisedButton(
+                    onPressed: () {
+                      _addBiodata();
+                    },
+                    shape: new RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(4),
+                    ),
+                    color: Colors.white,
+                    disabledColor: Colors.white,
+                    child: Text(
+                      "Submit",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 0.5,
+                        fontFamily: "Open Sans",
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -192,8 +197,7 @@ class _AddBiodataScreenState extends State<AddBiodataScreen> {
           password: _passwordController.text);
 
       _biodataBloc.inAddBioadata.add(biodataModel);
-      ToastUtils.show("Add Data Berhasil!");
-      Navigator.pop(context);
+      Navigator.pop(context, true);
     }
   }
 

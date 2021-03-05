@@ -62,9 +62,10 @@ class DBProvider {
     return biodatas;
   }
 
-  getBioadata(int id) async {
+  getBioadata(BiodataModel biodataModel) async {
     final db = await database;
-    var res = await db.query('biodata', where: 'id = ?', whereArgs: [id]);
+    var res = await db
+        .query('biodata', where: 'id = ?', whereArgs: [biodataModel.id]);
 
     return res.isNotEmpty ? BiodataModel.fromJson(res.first) : null;
   }

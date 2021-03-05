@@ -1,6 +1,6 @@
 import 'package:biodata_app/data/blocs/biodatas_bloc.dart';
 import 'package:biodata_app/data/blocs/bloc_provider.dart';
-import 'package:biodata_app/screen/splash_screen.dart';
+import 'package:biodata_app/screen/landing_screen.dart';
 import 'package:biodata_app/utils/navigator.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       ),
       home: BlocProvider(
         bloc: BiodatasBloc(),
-        child: SplashScreen(),
+        child: LandingScreen(),
       ),
       routes: routes,
     );

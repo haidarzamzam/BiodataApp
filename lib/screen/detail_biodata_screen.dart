@@ -333,6 +333,7 @@ Future<void> _displayTextInputDialog(
                         urlYoutube: biodataModel.urlYoutube,
                         password: biodataModel.password,
                         id: biodataModel.id,
+                        gender: biodataModel.gender,
                       ),
                     ),
                   ),

@@ -71,6 +71,7 @@ class _EditBiodataScreenState extends State<EditBiodataScreen> {
     _urlYoutubeController.text = widget.urlYoutube;
     _passwordController.text = widget.password;
     _photoProfile = widget.photo;
+    _gender = widget.gender;
   }
 
   @override
